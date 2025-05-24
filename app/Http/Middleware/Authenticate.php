@@ -12,6 +12,9 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
+        if ($request->is('*create', '*edit', '*destroy') || $request->isMethod('DELETE')) {
+            abort(403);
+        }
         return $request->expectsJson() ? null : route('login');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskStatus;
+use App\Http\Requests\TaskStatusRequest;
 use Illuminate\Http\Request;
 
 class TaskStatusesController extends Controller
@@ -25,16 +26,9 @@ class TaskStatusesController extends Controller
         return view('status.create', compact('status'));
     }
 
-    public function store(Request $request)
+    public function store(TaskStatusRequest $request)
     {
-        $messages = [
-            'name.required' => 'Это обязательное поле',
-            'name.unique' => 'Статус с таким именем уже существует'
-        ];
-        $data = $this->validate($request, [
-            'name' => 'required|unique:task_statuses',
-        ], $messages);
-
+        $data = $request->validated();
         $status = new TaskStatus();
         $status->fill($data)->save();
 
@@ -47,16 +41,9 @@ class TaskStatusesController extends Controller
         return view('status.edit', compact('taskStatus'));
     }
 
-    public function update(Request $request, TaskStatus $taskStatus)
+    public function update(TaskStatusRequest $request, TaskStatus $taskStatus)
     {
-        $messages = [
-            'name.required' => 'Это обязательное поле',
-            'name.unique' => 'Статус с таким именем уже существует'
-        ];
-        $data = $this->validate($request, [
-            'name' => 'required|unique:task_statuses,name,' . $taskStatus->id,
-        ], $messages);
-
+        $data = $request->validated();
         $taskStatus->fill($data)->save();
 
         flash(__('messages.Status successfully changed'))->success();
@@ -65,13 +52,12 @@ class TaskStatusesController extends Controller
 
     public function destroy(TaskStatus $taskStatus)
     {
-        if (!$taskStatus->tasks()->exists($taskStatus->id)) {
+        if ($taskStatus->tasks()->exists()) {
+            flash(__('messages.Failed to delete status'))->error();
+        } else {
             $taskStatus->delete();
             flash(__('messages.Status successfully deleted'))->success();
-        } else {
-            flash(__('messages.Failed to delete status'))->error();
         }
-
         return redirect()->route('task_statuses.index');
     }
 }

@@ -30,7 +30,7 @@ class Task extends Model
     /**
      * Get the creator of the task.
      */
-    public function creator(): BelongsTo
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
@@ -38,7 +38,7 @@ class Task extends Model
     /**
      * Get the assignee of the task.
      */
-    public function assignee(): BelongsTo
+    public function assignedToUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_to_id');
     }
@@ -48,6 +48,6 @@ class Task extends Model
      */
     public function labels(): BelongsToMany
     {
-        return $this->belongsToMany(Label::class);
+        return $this->belongsToMany(Label::class, 'label_tasks');
     }
 }

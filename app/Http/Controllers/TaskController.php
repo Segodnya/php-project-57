@@ -6,6 +6,7 @@ use App\Models\TaskStatus;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Label;
+use App\Http\Requests\TaskRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -13,14 +14,10 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class TaskController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Task::class);
-    }
-
     public function index(Request $request)
     {
         $tasks = QueryBuilder::for(Task::class)
+            ->with(['status', 'author', 'assignedToUser'])
             ->allowedFilters([
                 AllowedFilter::exact('status_id'),
                 AllowedFilter::exact('assigned_to_id'),
@@ -29,10 +26,10 @@ class TaskController extends Controller
             ->orderBy('id')
             ->paginate(5);
 
-        $statuses = TaskStatus::pluck('name', 'id');
-        $users = User::pluck('name', 'id');
+        $statuses = TaskStatus::pluck('name', 'id')->all();
+        $users = User::pluck('name', 'id')->all();
 
-        $filter = $request->filter ?? null;
+        $filter = $request->filter ?? [];
 
         return view('task.index', compact('tasks', 'statuses', 'users', 'filter'));
     }
@@ -46,26 +43,14 @@ class TaskController extends Controller
         return view('task.create', compact('task', 'statuses', 'users', 'labels'));
     }
 
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        $messages = [
-            'name.required' => 'Это обязательное поле',
-            'name.unique' => 'Задача с таким именем уже существует',
-            'status_id' => 'Это обязательное поле',
-        ];
-        $data = $this->validate($request, [
-            'name' => 'required|unique:tasks',
-            'description' => 'nullable',
-            'status_id' => 'required',
-            'assigned_to_id' => '',
-            'label' => '',
-        ], $messages);
-
+        $data = $request->validated();
         $labels = $data['label'] ?? [];
 
         $task = new Task();
         $task->fill($data);
-        $task->created_by_id = (int) Auth::id();
+        $task->created_by_id = Auth::id();
         $task->save();
         $task->labels()->attach($labels);
 
@@ -86,20 +71,9 @@ class TaskController extends Controller
         return view('task.edit', compact('task', 'statuses', 'users', 'labels'));
     }
 
-    public function update(Request $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
-        $messages = [
-            'name' => 'Это обязательное поле',
-            'status_id' => 'Это обязательное поле',
-        ];
-
-        $data = $this->validate($request, [
-            'name' => 'required:tasks,name,' . $task->id,
-            'description' => 'nullable:tasks,description' . $task->id,
-            'status_id' => 'required:tasks,status_id' . $task->id,
-            'assigned_to_id' => '',
-            'label' => '',
-        ], $messages);
+        $data = $request->validated();
         $labels = $data['label'] ?? [];
 
         $task->fill($data);
@@ -112,7 +86,7 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        if ($task->created_by_id !== (int) Auth::id()) {
+        if ($task->created_by_id !== Auth::id()) {
             flash(__('messages.Only the author can delete the task'))->error();
         } else {
             $task->delete();

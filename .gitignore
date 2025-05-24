@@ -23,5 +23,6 @@ yarn-error.log
 /.vscode
 /.zed
 .DS_store
+.phpstorm.meta.php
 _ide_helper.php
 _ide_helper_*.php

@@ -18,12 +18,15 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
+        $status = TaskStatus::first() ?? TaskStatus::factory()->create(['name' => 'новый']);
+        $user = User::first() ?? User::factory()->create();
+        
         return [
             'name' => fake()->unique()->name(),
             'description' => fake()->text,
-            'status_id' => TaskStatus::factory()->create(),
-            'created_by_id' => User::factory()->create(),
-            'assigned_to_id' => User::factory()->create()
+            'status_id' => $status->id,
+            'created_by_id' => $user->id,
+            'assigned_to_id' => $user->id
         ];
     }
 }

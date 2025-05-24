@@ -71,13 +71,13 @@ class LabelController extends Controller
 
     public function destroy(Label $label)
     {
-        if (!$label->tasks()->exists($label->id)) {
-            $label->delete();
-            flash(__('messages.The label was successfully deleted'))->success();
-        } else {
+        if ($label->tasks()->exists()) {
             flash(__('messages.Failed to delete label'))->error();
+            return redirect()->route('labels.index');
         }
 
+        $label->delete();
+        flash(__('messages.The label was successfully deleted'))->success();
         return redirect()->route('labels.index');
     }
 }

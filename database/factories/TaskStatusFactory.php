@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Constants\TaskStatuses;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TaskStatus>
@@ -18,7 +18,7 @@ class TaskStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->name(),
+            'name' => fake()->unique()->randomElement(TaskStatuses::all()),
         ];
     }
 }
