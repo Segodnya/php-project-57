@@ -1,106 +1,127 @@
 @extends('layouts.main')
 
 @section('content')
-      <section> 
-        @if($tasks->isEmpty())
-            <p>{{__('messages.No tasks found')}}</p>
-        @else
-            @foreach ($tasks as $task)
-                    <div>
-                      <x-task-status-badge status="{{$task->status->name ?? ''}}"/>
+  <div class="page-section">
+    <div class="flex-between mb-4">
+      <h1 class="text-title">{{ __('messages.Tasks') }}</h1>
+      @can('create', App\Models\Task::class)
+    <a href="{{ route('tasks.create') }}" class="btn-primary">
+      {{ __('messages.Create task') }}
+    </a>
+    @endcan
+    </div>
 
-                      <div class="square border border-light bg-slate-100 hover:bg-gray-300 rounded ms-1 position-relative">
-                        <div class="row ">
-                          <div class="col-10 position-relative">
-                            <div class="row">
-
-                              <div class="col-5 d-flex">
-                                <p class="p-2 m-0 align-self-center">
-                                  {{$task->id}}
-                                  <a class="p-2 m-0 stretched-link link-underline link-underline-opacity-0 text-dark" href="{{route('tasks.show', $task)}}">{{$task->name}}</a>
-                                </p>
-                              </div>
-
-                              <div class="col-2 d-inline-flex align-self-center justify-content-center">
-                                <x-task-status status="{{$task->status->name ?? ''}}"/>
-                              </div>
-
-                              <div class="col-5">
-                                @if (isset($task->assignedToUser))
-                                      <p class="p-2 m-0 pb-0">{{__('messages.Author')}}: {{$task->author->name ?? ''}}</p>
-                                      <p class="p-2 m-0 pt-0">{{__('messages.Executor')}}: {{$task->assignedToUser->name ?? ''}}</p>
-                                @else
-                                      <p class="p-2 m-0 mb-4">{{__('messages.Author')}}: {{$task->author->name ?? ''}}</p>
-                                @endif
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-2">
-                            <div class="col-12 d-flex align-items-end flex-column-reverse">
-                              <div class="p-2 pb-0 top-0 end-0 text-secondary p-0.5">
-                                @can('update', $task)
-                                      <a class="text-secondary p-0.5 link-underline link-underline-opacity-0" href="{{route('tasks.edit', $task)}}">
-                                        <i class="bi bi-pencil hover:text-black"></i>
-                                        <p class="d-none">{{__('messages.To change')}}</p>
-                                      </a>
-                                @endcan
-                                @can('delete', $task)
-                                      <a class="text-secondary p-0.5" href="{{route('tasks.destroy', $task)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">
-                                        <i class="bi bi-trash hover:text-black"></i>
-                                        <p class="d-none">{{__('messages.Delete')}}</p>
-                                      </a>
-                                @endcan
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                          <p class="m-0 px-2 pb-2 text-secondary position-absolute bottom-0 end-0">{{$task->formatted_date}}</p>
-                      </div>
-                    </div>
-            @endforeach
-        @endif
-
-        <div class="row d-flex justify-content-between">
-          <div class="col-7">
-            {{ $tasks->links() }}
-          </div>
-          <div class="col-3 d-flex align-self-center justify-content-end">
-              @can('create', App\Models\Task::class)
-                <a class="btn btn-primary" href="{{route('tasks.create')}}">{{__('messages.Create task')}}</a>
-              @endcan
-          </div>
+    <x-form-container :action="route('tasks.index')" method="GET" class="mb-6">
+      <div class="form-group">
+        <div class="form-section">
+          <x-input-label for="filter[status_id]" :value="__('messages.Status')" />
+          <select name="filter[status_id]" id="filter[status_id]" class="form-input-base">
+            <option value="">{{ __('messages.All statuses') }}</option>
+            @foreach($statuses as $id => $name)
+        <option value="{{ $id }}" {{ isset($filter['status_id']) && $filter['status_id'] == $id ? 'selected' : '' }}>
+        {{ $name }}
+        </option>
+      @endforeach
+          </select>
         </div>
 
-        <table class="text-white">
-          @foreach ($tasks as $task)
-              <tr>
-                  <td>{{$task->id}}</td>
-                  <th>{{$task->name}}</th>
-                  <th>{{$task->status->name ?? ''}}</th>
-                  <th>{{$task->formatted_date}}</th>
-                  <th>{{$task->author->name ?? ''}}</th>
-                  <th>{{$task->assignedToUser->name ?? ''}}</th>
-              </tr>
-          @endforeach
-        </table>
-      </section>  
+        <div class="form-section">
+          <x-input-label for="filter[created_by_id]" :value="__('messages.Author')" />
+          <select name="filter[created_by_id]" id="filter[created_by_id]" class="form-input-base">
+            <option value="">{{ __('messages.All authors') }}</option>
+            @foreach($users as $id => $name)
+        <option value="{{ $id }}" {{ isset($filter['created_by_id']) && $filter['created_by_id'] == $id ? 'selected' : '' }}>
+        {{ $name }}
+        </option>
+      @endforeach
+          </select>
+        </div>
+
+        <div class="form-section">
+          <x-input-label for="filter[assigned_to_id]" :value="__('messages.Executor')" />
+          <select name="filter[assigned_to_id]" id="filter[assigned_to_id]" class="form-input-base">
+            <option value="">{{ __('messages.All executors') }}</option>
+            @foreach($users as $id => $name)
+        <option value="{{ $id }}" {{ isset($filter['assigned_to_id']) && $filter['assigned_to_id'] == $id ? 'selected' : '' }}>
+        {{ $name }}
+        </option>
+      @endforeach
+          </select>
+        </div>
+      </div>
+
+      <div class="flex justify-end mt-4">
+        <x-primary-button>{{ __('messages.Apply') }}</x-primary-button>
+      </div>
+    </x-form-container>
+
+    <x-table>
+      <x-slot name="headers">
+        <tr>
+          <th class="table-header">{{ __('messages.ID') }}</th>
+          <th class="table-header">{{ __('messages.Name') }}</th>
+          <th class="table-header">{{ __('messages.Status') }}</th>
+          <th class="table-header">{{ __('messages.Created at') }}</th>
+          <th class="table-header">{{ __('messages.Author') }}</th>
+          <th class="table-header">{{ __('messages.Executor') }}</th>
+          <th class="table-header">{{ __('messages.Actions') }}</th>
+        </tr>
+      </x-slot>
+
+      @foreach ($tasks as $task)
+      <tr>
+      <td class="table-cell">{{ $task->id }}</td>
+      <td class="table-cell">{{ $task->name }}</td>
+      <td class="table-cell">{{ $task->status->name ?? '' }}</td>
+      <td class="table-cell">{{ $task->formatted_date }}</td>
+      <td class="table-cell">{{ $task->author->name ?? '' }}</td>
+      <td class="table-cell">{{ $task->assignedToUser->name ?? '' }}</td>
+      <td class="table-cell">
+        <div class="flex space-x-3">
+        <a href="{{ route('tasks.show', $task) }}" class="link-base">
+          {{ __('messages.View') }}
+        </a>
+        @can('update', $task)
+      <a href="{{ route('tasks.edit', $task) }}" class="link-base">
+      {{ __('messages.Edit') }}
+      </a>
+      @endcan
+        @can('delete', $task)
+      <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="inline">
+      @csrf
+      @method('DELETE')
+      <button type="submit" class="link-base" onclick="return confirm('{{ __('messages.Are you sure?') }}')">
+      {{ __('messages.Delete') }}
+      </button>
+      </form>
+      @endcan
+        </div>
+      </td>
+      </tr>
+    @endforeach
+    </x-table>
+
+    <div class="mt-4">
+      {{ $tasks->links() }}
+    </div>
+  </div>
 @endsection
 
 @section('title')
-      <x-title-task-manager text="messages.Task"/>
+    <x-title-task-manager text="messages.Task"/>
 @endsection
 
 @section('filter')
-      <div class="mb-3"> 
-        {!! Form::open(['class' => 'form', 'route' => 'tasks.index', 'method' => 'get']) !!}
-        <div class="row">
-            <div class="col-2">{!! Form::select('filter[status_id]', $statuses, $filter['status_id'] ?? null, ['placeholder' => __('messages.Status'), 'class' => 'form-control']) !!}</div>
-            <div class="col-4">{!! Form::select('filter[created_by_id]', $users, $filter['created_by_id'] ?? null, ['placeholder' => 'Автор', 'class' => 'form-control']) !!}</div>
-            <div class="col-4">{!! Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null, ['placeholder' => __('messages.Executor'), 'class' => 'form-control']) !!}</div>
-            <div class="col-2 d-flex justify-content-end">
-              {!! Form::submit(__('messages.Apply'), ['class' => 'btn btn-primary']) !!}
-            </div>
-        </div>
-        {!! Form::close() !!}
+    <div class="mb-3"> 
+    {!! Form::open(['class' => 'form', 'route' => 'tasks.index', 'method' => 'get']) !!}
+    <div class="row">
+      <div class="col-2">{!! Form::select('filter[status_id]', $statuses, $filter['status_id'] ?? null, ['placeholder' => __('messages.Status'), 'class' => 'form-control']) !!}</div>
+      <div class="col-4">{!! Form::select('filter[created_by_id]', $users, $filter['created_by_id'] ?? null, ['placeholder' => 'Автор', 'class' => 'form-control']) !!}</div>
+      <div class="col-4">{!! Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null, ['placeholder' => __('messages.Executor'), 'class' => 'form-control']) !!}</div>
+      <div class="col-2 d-flex justify-content-end">
+        {!! Form::submit(__('messages.Apply'), ['class' => 'btn btn-primary']) !!}
       </div>
+    </div>
+    {!! Form::close() !!}
+    </div>
 @endsection
