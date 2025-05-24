@@ -25,6 +25,8 @@ Route::get('/', function () {
 Route::get('task_statuses', [TaskStatusesController::class, 'index'])->name('task_statuses.index');
 Route::get('labels', [LabelController::class, 'index'])->name('labels.index');
 Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('tasks/create', [TaskController::class, 'create'])->middleware('auth')->name('tasks.create');
+Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
 
 // Protected routes
 Route::middleware(['auth'])->group(function () {
@@ -43,7 +45,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('labels/{label}', [LabelController::class, 'destroy'])->name('labels.destroy');
 
     // Tasks
-    Route::get('tasks/create', [TaskController::class, 'create'])->name('tasks.create');
     Route::post('tasks', [TaskController::class, 'store'])->name('tasks.store');
     Route::get('tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
     Route::match(['put', 'patch'], 'tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');

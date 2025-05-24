@@ -1,4 +1,4 @@
-@props(['name', 'label', 'type' => 'text', 'options' => [], 'placeholder' => null])
+@props(['name', 'label', 'type' => 'text', 'options' => [], 'placeholder' => null, 'value' => null])
 
 <div class="mb-4">
     <label for="{{ $name }}" class="form-label">
@@ -10,7 +10,7 @@
             id="{{ $name }}"
             name="{{ $name }}"
             {{ $attributes->merge(['class' => 'form-input-base w-full']) }}
-        >{{ $slot }}</textarea>
+        >{{ $slot ?? '' }}</textarea>
     @elseif ($type === 'select')
         <select
             id="{{ $name }}"
@@ -22,7 +22,7 @@
             @endif
             
             @foreach ($options as $value => $label)
-                <option value="{{ $value }}" {{ $value == $slot ? 'selected' : '' }}>
+                <option value="{{ $value }}" {{ isset($slot) && $value == (string)$slot ? 'selected' : '' }}>
                     {{ $label }}
                 </option>
             @endforeach
@@ -33,7 +33,7 @@
             id="{{ $name }}"
             name="{{ $name }}"
             {{ $attributes->merge(['class' => 'form-input-base w-full']) }}
-            value="{{ $slot }}"
+            value="{{ $slot ?? $value ?? '' }}"
         >
     @endif
     
