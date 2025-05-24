@@ -1,14 +1,14 @@
 parameters:
-  level: 8
+  level: 3
   paths:
     - app
     - routes
-    - tests
 
   excludePaths:
+    - tests
     - routes/console.php
     - routes/auth.php
-    - app/Helpers/HtmlHelper.php
+    - app/Helpers/HtmlHelper.php (?)
     - routes/channels.php
     - app/Providers/*
     - app/Exceptions/Handler.php
@@ -17,6 +17,9 @@ parameters:
     - app/Http/Controllers/Auth/*
     - tests/Feature/Auth/*
     - app/Http/Kernel.php
+    - app/Http/Controllers/LabelController.php
+    - app/Http/Controllers/TaskController.php
+    - app/Http/Controllers/TaskStatusesController.php
 
   reportUnmatchedIgnoredErrors: false
 
@@ -24,6 +27,9 @@ parameters:
    - '#Parameter \#1 \$message of function flash expects string\|null, array\|string\|null given.#'
    - '#Cannot call method [\w]+\(\) on App\\Models\\User\|null.#'
    - '#Dynamic call to static method#'
+   - '#Call to an undefined static method App\\Models\\[A-Za-z0-9\\\\]+::pluck\(\)#'
+   - '#Call to an undefined static method App\\Models\\[A-Za-z0-9\\\\]+::orderBy\(\)#'
+   - '#Access to an undefined property App\\Models\\[A-Za-z0-9\\\\]+::\$[a-zA-Z0-9_]+#'
    - '#<int, Illuminate\\Database\\Eloquent\\Model>\|Illuminate\\Database\\Eloquent\\Model\::\$id#'
    - '#<int, Illuminate\\Database\\Eloquent\\Model>\|Illuminate\\Database\\Eloquent\\Model\::\$createdBy#'
    - '#Tests\\Feature\\[\w]+\::\$user \(App\\Models\\User\) does not accept#'

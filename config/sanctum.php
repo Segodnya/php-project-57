@@ -64,4 +64,13 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Sanctum Migrations
+    |--------------------------------------------------------------------------
+    |
+    | Skip the default migrations
+    |
+    */
+    'migrations' => false,
 ];

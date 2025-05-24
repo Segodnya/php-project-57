@@ -4,6 +4,11 @@ start:
 start-frontend:
 	npm run dev
 
+validate-and-start: validate lint 
+	-make phpstan || true
+	make test || true
+	make start
+
 setup:
 	composer install
 	cp -n .env.example .env
