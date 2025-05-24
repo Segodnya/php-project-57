@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\TaskStatus;
 use App\Http\Requests\TaskStatusRequest;
-use Illuminate\Http\Request;
 
 class TaskStatusesController extends Controller
 {
@@ -52,7 +51,8 @@ class TaskStatusesController extends Controller
 
     public function destroy(TaskStatus $taskStatus)
     {
-        if ($taskStatus->tasks()->exists()) {
+        $tasksCount = $taskStatus->tasks()->getQuery()->count();
+        if ($tasksCount > 0) {
             flash(__('messages.Failed to delete status'))->error();
         } else {
             $taskStatus->delete();

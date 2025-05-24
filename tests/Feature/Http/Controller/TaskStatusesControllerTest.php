@@ -11,7 +11,9 @@ class TaskStatusesControllerTest extends TestCase
 {
     private string $tableName;
     private array $formData;
+    /** @var User */
     private User $user;
+    /** @var TaskStatus */
     private TaskStatus $taskStatus;
 
     protected function setUp(): void
@@ -19,8 +21,15 @@ class TaskStatusesControllerTest extends TestCase
         parent::setUp();
 
         $taskStatus = TaskStatus::factory()->make();
-        $this->user = User::factory()->create();
-        $this->taskStatus = TaskStatus::factory()->create();
+
+        // Create models directly
+        /** @var User $user */
+        $user = User::factory()->create();
+        $this->user = $user;
+
+        /** @var TaskStatus $taskStatusModel */
+        $taskStatusModel = TaskStatus::factory()->create();
+        $this->taskStatus = $taskStatusModel;
         $this->tableName = $taskStatus->getTable();
         $this->formData = $taskStatus->only(['name']);
     }

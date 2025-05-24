@@ -14,7 +14,7 @@ class TaskStatusRequest extends FormRequest
     public function rules(): array
     {
         $status = $this->route('task_status');
-        $statusId = $status ? ',' . $status->id : '';
+        $statusId = $status && is_object($status) ? ',' . $status->id : '';
 
         return [
             'name' => 'required|unique:task_statuses,name' . $statusId,
@@ -28,4 +28,4 @@ class TaskStatusRequest extends FormRequest
             'name.unique' => __('messages.A status with this name already exists')
         ];
     }
-} 
+}

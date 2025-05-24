@@ -5,15 +5,17 @@ namespace Tests\Feature\Http\Controller;
 use App\Models\Label;
 use App\Models\User;
 use App\Models\Task;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class LabelControllerTest extends TestCase
 {
     private string $tableName;
     private array $formData;
+    /** @var User */
     private User $user;
+    /** @var Label */
     private Label $label;
+    /** @var Task */
     private Task $task;
 
     protected function setUp(): void
@@ -21,9 +23,19 @@ class LabelControllerTest extends TestCase
         parent::setUp();
 
         $label = Label::factory()->make();
-        $this->user = User::factory()->create();
-        $this->label = Label::factory()->create();
-        $this->task = Task::factory()->create();
+
+        // Create models directly
+        /** @var User $user */
+        $user = User::factory()->create();
+        $this->user = $user;
+
+        /** @var Label $labelModel */
+        $labelModel = Label::factory()->create();
+        $this->label = $labelModel;
+
+        /** @var Task $taskModel */
+        $taskModel = Task::factory()->create();
+        $this->task = $taskModel;
         $this->tableName = $label->getTable();
         $this->formData = $label->only(
             [

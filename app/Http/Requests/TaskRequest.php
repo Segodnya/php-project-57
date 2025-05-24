@@ -14,7 +14,7 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         $task = $this->route('task');
-        $taskId = $task ? ',' . $task->id : '';
+        $taskId = $task && is_object($task) ? ',' . $task->id : '';
 
         return [
             'name' => 'required|unique:tasks,name' . $taskId,
@@ -33,4 +33,4 @@ class TaskRequest extends FormRequest
             'status_id.required' => __('messages.This is a required field'),
         ];
     }
-} 
+}

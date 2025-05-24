@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Label;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class LabelController extends Controller
 {
@@ -71,7 +69,8 @@ class LabelController extends Controller
 
     public function destroy(Label $label)
     {
-        if ($label->tasks()->exists()) {
+        $tasksCount = $label->tasks()->getQuery()->count();
+        if ($tasksCount > 0) {
             flash(__('messages.Failed to delete label'))->error();
             return redirect()->route('labels.index');
         }

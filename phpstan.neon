@@ -1,11 +1,11 @@
 parameters:
-  level: 3
+  level: 6
   paths:
     - app
     - routes
+    - tests
 
   excludePaths:
-    - tests
     - routes/console.php
     - routes/auth.php
     - app/Helpers/HtmlHelper.php (?)
@@ -17,9 +17,6 @@ parameters:
     - app/Http/Controllers/Auth/*
     - tests/Feature/Auth/*
     - app/Http/Kernel.php
-    - app/Http/Controllers/LabelController.php
-    - app/Http/Controllers/TaskController.php
-    - app/Http/Controllers/TaskStatusesController.php
 
   reportUnmatchedIgnoredErrors: false
 

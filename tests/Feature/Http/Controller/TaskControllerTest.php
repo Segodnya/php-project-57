@@ -10,7 +10,9 @@ class TaskControllerTest extends TestCase
 {
     private string $tableName;
     private array $formData;
+    /** @var User */
     private User $user;
+    /** @var Task */
     private Task $task;
 
     protected function setUp(): void
@@ -18,8 +20,15 @@ class TaskControllerTest extends TestCase
         parent::setUp();
 
         $task = Task::factory()->make();
-        $this->user = User::factory()->create();
-        $this->task = Task::factory()->create();
+
+        // Create models directly
+        /** @var User $user */
+        $user = User::factory()->create();
+        $this->user = $user;
+
+        /** @var Task $taskModel */
+        $taskModel = Task::factory()->create();
+        $this->task = $taskModel;
         $this->tableName = $task->getTable();
         $this->formData = $task->only(
             [

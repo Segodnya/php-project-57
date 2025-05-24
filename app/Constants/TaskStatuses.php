@@ -18,4 +18,4 @@ class TaskStatuses
             self::COMPLETED
         ];
     }
-} 
+}

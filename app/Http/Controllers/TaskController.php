@@ -9,20 +9,30 @@ use App\Models\Label;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 
 class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $tasks = QueryBuilder::for(Task::class)
-            ->with(['status', 'author', 'assignedToUser'])
-            ->allowedFilters([
-                AllowedFilter::exact('status_id'),
-                AllowedFilter::exact('assigned_to_id'),
-                AllowedFilter::exact('created_by_id')
-            ])
+        // First get the base query
+        $query = Task::query();
+
+        // Apply filters manually
+        $filters = $request->get('filter', []);
+        if (isset($filters['status_id'])) {
+            $query->where('status_id', $filters['status_id']);
+        }
+
+        if (isset($filters['assigned_to_id'])) {
+            $query->where('assigned_to_id', $filters['assigned_to_id']);
+        }
+
+        if (isset($filters['created_by_id'])) {
+            $query->where('created_by_id', $filters['created_by_id']);
+        }
+
+        // Apply eager loading and pagination
+        $tasks = $query->with(['status', 'author', 'assignedToUser'])
             ->orderBy('id')
             ->paginate(5);
 
