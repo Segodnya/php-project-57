@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class TaskPolicy
 {
@@ -45,7 +44,10 @@ class TaskPolicy
      */
     public function delete(?User $user, Task $task): bool
     {
-        return $user !== null;
+        if ($user === null) {
+            return false;
+        }
+        return $user->id === $task->created_by_id;
     }
 
     /**

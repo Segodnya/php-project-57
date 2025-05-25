@@ -71,3 +71,18 @@
 @section('title')
     <x-title-task-manager text="messages.Label"/>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (confirm('{{ __("messages.Are you sure?") }}')) {
+                this.submit();
+            }
+        });
+    });
+});
+</script>
+@endpush

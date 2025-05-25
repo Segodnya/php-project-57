@@ -53,7 +53,7 @@
 
         <div class="mt-4">
             <button type="submit" class="btn-primary">
-                {{ __('messages.Create Task') }}
+                {{ __('messages.Создать') }}
             </button>
         </div>
     </form>
