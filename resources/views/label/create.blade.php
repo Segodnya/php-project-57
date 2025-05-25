@@ -1,25 +1,41 @@
 @extends('layouts.main')
 
 @section('content')
-    <form action="{{ route('labels.store') }}" method="POST">
-        @csrf
-        <div class="row m-0">
-            <div class="col-9 square border border-light bg-slate-100 rounded p-3">
-                <label for="name" class="form-label">{{ __('messages.Title') }}</label>
-                <input type="text" name="name" id="name" value="{{ old('name') }}" class="form-control">
-                <x-input-error :messages="$errors->get('name')" class="m-0 px-3" />
-                <br>
-                <label for="description" class="form-label">{{ __('messages.Description') }}</label>
-                <textarea name="description" id="description" class="form-control" style="height: 21.25rem;">{{ old('description') }}</textarea>
+    <div class="container py-4">
+        <form action="{{ route('labels.store') }}" method="POST" class="relative z-10">
+            @csrf
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">{{ __('messages.Title') }}</label>
+                    <input type="text" 
+                           name="name" 
+                           id="name" 
+                           value="{{ old('name') }}" 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror">
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="description" class="block text-sm font-medium text-gray-700">{{ __('messages.Description') }}</label>
+                    <textarea name="description" 
+                              id="description" 
+                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              rows="4">{{ old('description') }}</textarea>
+                </div>
+
+                <div class="flex justify-start space-x-4 mt-6">
+                    <a href="{{ route('labels.index') }}" 
+                       class="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        {{ __('messages.Cancel') }}
+                    </a>
+                    <button type="submit" 
+                            class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        {{ __('messages.Create') }}
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-3">
-                <a class="btn btn-secondary" href="{{ route('labels.index') }}">{{ __('messages.Cancel') }}</a>
-                <button type="submit" class="btn btn-primary mx-1.5">{{ __('messages.Create') }}</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 @endsection
 
 @section('title')

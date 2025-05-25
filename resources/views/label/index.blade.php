@@ -24,10 +24,10 @@
                                 </a>
                             @endcan
                             @can('delete', $label)
-                                <form method="POST" class="d-inline" action="{{ route('labels.destroy', $label) }}">
+                                <form method="POST" class="d-inline delete-form" action="{{ route('labels.destroy', $label) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="nav-link border-0 bg-transparent">
+                                    <button type="submit" class="nav-link border-0 bg-transparent delete-btn">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
@@ -44,7 +44,7 @@
             </div>
             <div class="col-3 d-flex align-self-center justify-content-end">
                 @can('create', App\Models\Label::class)
-                    <a href="{{ route('labels.create') }}" class="btn-primary">
+                    <a href="{{ route('labels.create') }}" class="btn btn-primary">
                         {{ __('messages.Create label') }}
                     </a>
                 @endcan
@@ -53,6 +53,19 @@
 
         <x-hexlet-stub-test :objects="$labels"/>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (confirm('{{ __("messages.Are you sure?") }}')) {
+                        this.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
 
 @section('title')

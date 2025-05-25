@@ -2340,7 +2340,7 @@ namespace PHPSTORM_META {
 'messages.The task was successfully created','messages.The task was successfully deleted','messages.The label was created successfully','messages.Label changed successfully','messages.The label was successfully deleted',
 'messages.Failed to delete label','messages.Status successfully created','messages.Status successfully changed','messages.Status successfully deleted','messages.Failed to delete status',
 'messages.False authenticate','messages.Only the author can delete the task','messages.Only the author can update the task','messages.Greetings from Hexlet!','messages.This is a simple task manager on Laravel',
-'messages.Push me',);
+'messages.Push me','messages.This is a required field','messages.A status with this name already exists','messages.A task with this name already exists',);
         registerArgumentsSet('env', 
 'APP_NAME','APP_ENV','APP_KEY','APP_DEBUG','APP_URL',
 'APP_LOCALE','APP_FALLBACK_LOCALE','APP_FAKER_LOCALE','APP_MAINTENANCE_DRIVER','PHP_CLI_SERVER_WORKERS',

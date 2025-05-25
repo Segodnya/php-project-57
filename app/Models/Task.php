@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Carbon\Carbon;
 
 class Task extends Model
 {
@@ -18,6 +19,16 @@ class Task extends Model
         'created_by_id',
         'assigned_to_id'
     ];
+
+    protected $appends = ['formatted_date'];
+
+    /**
+     * Get the formatted created date
+     */
+    public function getFormattedDateAttribute(): string
+    {
+        return Carbon::parse($this->created_at)->format('d.m.Y');
+    }
 
     /**
      * Get the status that owns the task.
