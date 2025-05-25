@@ -68,7 +68,7 @@ class TaskController extends Controller
         $task->labels()->attach($labels);
 
         flash(__('messages.The task was successfully created'))->success();
-        return redirect()->route('tasks.create');
+        return redirect()->route('tasks.index');
     }
 
     public function show(Task $task)

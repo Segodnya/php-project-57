@@ -62,7 +62,7 @@ class TaskControllerTest extends TestCase
     public function testStore(): void
     {
         $this->actingAs($this->user)->post(route('tasks.store', $this->formData))
-            ->assertRedirect(route('tasks.create'))
+            ->assertRedirect(route('tasks.index'))
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas($this->tableName, $this->formData);
