@@ -29,7 +29,8 @@ class TaskStatusesController extends Controller
     {
         $data = $request->validated();
         $status = new TaskStatus();
-        $status->fill($data)->save();
+        // PHPStan knows validated() returns array, but we'll explicitly cast to be safe
+        $status->fill((array) $data)->save();
 
         flash(__('messages.Status successfully created'))->success();
         return redirect()->route('task_statuses.index');
@@ -43,7 +44,7 @@ class TaskStatusesController extends Controller
     public function update(TaskStatusRequest $request, TaskStatus $taskStatus)
     {
         $data = $request->validated();
-        $taskStatus->fill($data)->save();
+        $taskStatus->fill((array) $data)->save();
 
         flash(__('messages.Status successfully changed'))->success();
         return redirect()->route('task_statuses.index');

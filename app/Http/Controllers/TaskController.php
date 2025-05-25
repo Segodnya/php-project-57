@@ -19,15 +19,15 @@ class TaskController extends Controller
 
         // Apply filters manually
         $filters = $request->get('filter', []);
-        if (isset($filters['status_id'])) {
+        if (is_array($filters) && isset($filters['status_id'])) {
             $query->where('status_id', $filters['status_id']);
         }
 
-        if (isset($filters['assigned_to_id'])) {
+        if (is_array($filters) && isset($filters['assigned_to_id'])) {
             $query->where('assigned_to_id', $filters['assigned_to_id']);
         }
 
-        if (isset($filters['created_by_id'])) {
+        if (is_array($filters) && isset($filters['created_by_id'])) {
             $query->where('created_by_id', $filters['created_by_id']);
         }
 
@@ -56,7 +56,10 @@ class TaskController extends Controller
     public function store(TaskRequest $request)
     {
         $data = $request->validated();
-        $labels = $data['label'] ?? [];
+
+        // Ensure data is processed as an array
+        $data = is_array($data) ? $data : [];
+        $labels = isset($data['label']) && is_array($data['label']) ? $data['label'] : [];
 
         $task = new Task();
         $task->fill($data);
@@ -84,7 +87,10 @@ class TaskController extends Controller
     public function update(TaskRequest $request, Task $task)
     {
         $data = $request->validated();
-        $labels = $data['label'] ?? [];
+
+        // Ensure data is processed as an array
+        $data = is_array($data) ? $data : [];
+        $labels = isset($data['label']) && is_array($data['label']) ? $data['label'] : [];
 
         $task->fill($data);
         $task->save();
