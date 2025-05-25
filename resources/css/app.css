@@ -18,6 +18,15 @@
         @apply border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full;
     }
 
+    /* Form error styles */
+    .form-error {
+        @apply text-sm text-red-600 mt-1 block;
+    }
+
+    .form-error li {
+        @apply list-none;
+    }
+
     /* Common button styles */
     .btn-primary {
         @apply inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;

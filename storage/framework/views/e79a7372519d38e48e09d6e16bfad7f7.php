@@ -1,21 +1,40 @@
-<?php $attributes ??= new \Illuminate\View\ComponentAttributeBag; ?>
-<?php foreach($attributes->onlyProps(['name', 'label', 'type' => 'text', 'value' => null]) as $__key => $__value) {
-    $$__key = $$__key ?? $__value;
-} ?>
-<?php $attributes = $attributes->exceptProps(['name', 'label', 'type' => 'text', 'value' => null]); ?>
-<?php foreach (array_filter((['name', 'label', 'type' => 'text', 'value' => null]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
-    $$__key = $$__key ?? $__value;
-} ?>
-<?php $__defined_vars = get_defined_vars(); ?>
-<?php foreach ($attributes as $__key => $__value) {
-    if (array_key_exists($__key, $__defined_vars)) unset($$__key);
-} ?>
-<?php unset($__defined_vars); ?>
+<?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
 
-<div class="form-group">
-    <label for="<?php echo e($name); ?>" class="form-label">
+$__newAttributes = [];
+$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['name', 'label', 'type' => 'text', 'value' => null]));
+
+foreach ($attributes->all() as $__key => $__value) {
+    if (in_array($__key, $__propNames)) {
+        $$__key = $$__key ?? $__value;
+    } else {
+        $__newAttributes[$__key] = $__value;
+    }
+}
+
+$attributes = new \Illuminate\View\ComponentAttributeBag($__newAttributes);
+
+unset($__propNames);
+unset($__newAttributes);
+
+foreach (array_filter((['name', 'label', 'type' => 'text', 'value' => null]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
+    $$__key = $$__key ?? $__value;
+}
+
+$__defined_vars = get_defined_vars();
+
+foreach ($attributes->all() as $__key => $__value) {
+    if (array_key_exists($__key, $__defined_vars)) unset($$__key);
+}
+
+unset($__defined_vars); ?>
+
+<div class="form-group mb-4">
+    <label for="<?php echo e($name); ?>" class="block text-sm font-medium text-gray-700 mb-1">
         <?php echo e(__($label)); ?>
 
+        <?php if($attributes->has('required')): ?>
+            <span class="text-red-500">*</span>
+        <?php endif; ?>
     </label>
     
     <input 
@@ -23,28 +42,21 @@
         id="<?php echo e($name); ?>"
         name="<?php echo e($name); ?>"
         value="<?php echo e(old($name, $value)); ?>"
-        <?php echo e($attributes->merge(['class' => 'form-control'])); ?>
+        <?php echo e($attributes->merge(['class' => 'form-input-base ' . ($errors->has($name) ? 'border-red-500' : '')])); ?>
 
     >
     
-    <?php if (isset($component)) { $__componentOriginalf94ed9c5393ef72725d159fe01139746 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginalf94ed9c5393ef72725d159fe01139746 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get($name),'class' => 'm-0 px-3']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('input-error'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get($name)),'class' => 'm-0 px-3']); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginalf94ed9c5393ef72725d159fe01139746)): ?>
-<?php $attributes = $__attributesOriginalf94ed9c5393ef72725d159fe01139746; ?>
-<?php unset($__attributesOriginalf94ed9c5393ef72725d159fe01139746); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginalf94ed9c5393ef72725d159fe01139746)): ?>
-<?php $component = $__componentOriginalf94ed9c5393ef72725d159fe01139746; ?>
-<?php unset($__componentOriginalf94ed9c5393ef72725d159fe01139746); ?>
-<?php endif; ?>
+    <?php $__errorArgs = [$name];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+        <div class="form-error">
+            <?php echo e($message); ?>
+
+        </div>
+    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 </div> <?php /**PATH /Users/segodnya/Desktop/hexlet/php-project-57/resources/views/components/form/input.blade.php ENDPATH**/ ?>
