@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Use event delegation for better reliability
     document.body.addEventListener('click', function(e) {
         // Find the delete link or button
-        const deleteElement = e.target.closest('[data-method="delete"]') || 
-                            e.target.closest('.delete-btn') || 
-                            e.target.closest('a[href*="delete"]');
+        const deleteElement = e.target.closest('.delete-btn') || 
+                              e.target.closest('[data-method="delete"]') || 
+                              e.target.closest('a[href*="delete"]');
         
         if (deleteElement) {
             e.preventDefault();
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 // For regular delete buttons/forms
-                const form = deleteElement.closest('form') || deleteElement.querySelector('form');
+                const form = deleteElement.closest('form');
                 if (form) {
                     form.submit();
                 }
