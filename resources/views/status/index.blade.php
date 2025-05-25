@@ -25,10 +25,14 @@
                                 </a>
                             @endcan
                             @can('delete', $status)
-                                <a class="text-secondary p-0.5" href="{{route('task_statuses.destroy', $status)}}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">
-                                  <i class="bi bi-trash hover:text-black"></i>
-                                  <p class="d-none">{{__('messages.Delete')}}</p>
-                                </a>
+                                <form method="POST" class="d-inline" action="{{ route('task_statuses.destroy', $status) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-secondary p-0.5 border-0 bg-transparent" data-confirm="{{ __('messages.Are you sure?') }}">
+                                        <i class="bi bi-trash hover:text-black"></i>
+                                        <p class="d-none">{{__('messages.Delete')}}</p>
+                                    </button>
+                                </form>
                             @endcan
                           </div>
                       </div>

@@ -196,7 +196,7 @@
       <form method="POST" action="<?php echo e(route('tasks.destroy', $task)); ?>" class="inline delete-form">
       <?php echo csrf_field(); ?>
       <?php echo method_field('DELETE'); ?>
-      <button type="submit" class="link-base delete-btn">
+      <button type="submit" class="link-base delete-btn" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>">
       <?php echo e(__('messages.Delete')); ?>
 
       </button>
@@ -291,19 +291,4 @@
         </form>
     </div>
 <?php $__env->stopSection(); ?>
-
-<?php $__env->startPush('scripts'); ?>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.delete-form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (confirm('<?php echo e(__("messages.Are you sure?")); ?>')) {
-                this.submit();
-            }
-        });
-    });
-});
-</script>
-<?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.main', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /Users/segodnya/Desktop/hexlet/php-project-57/resources/views/task/index.blade.php ENDPATH**/ ?>

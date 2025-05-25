@@ -25,10 +25,14 @@
                                 </a>
                             <?php endif; ?>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete', $status)): ?>
-                                <a class="text-secondary p-0.5" href="<?php echo e(route('task_statuses.destroy', $status)); ?>" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">
-                                  <i class="bi bi-trash hover:text-black"></i>
-                                  <p class="d-none"><?php echo e(__('messages.Delete')); ?></p>
-                                </a>
+                                <form method="POST" class="d-inline" action="<?php echo e(route('task_statuses.destroy', $status)); ?>">
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
+                                    <button type="submit" class="text-secondary p-0.5 border-0 bg-transparent" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>">
+                                        <i class="bi bi-trash hover:text-black"></i>
+                                        <p class="d-none"><?php echo e(__('messages.Delete')); ?></p>
+                                    </button>
+                                </form>
                             <?php endif; ?>
                           </div>
                       </div>
@@ -51,12 +55,12 @@
 
         <?php if (isset($component)) { $__componentOriginal585d8e0b6786fb23cf16fcb9093e880c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal585d8e0b6786fb23cf16fcb9093e880c = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.hexlet-stub-test','data' => ['objects' => $statuses]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.hexlet-stub-test','data' => ['objects' => $statuses]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('hexlet-stub-test'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['objects' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($statuses)]); ?>
 <?php echo $__env->renderComponent(); ?>
@@ -75,12 +79,12 @@
 <?php $__env->startSection('title'); ?>
       <?php if (isset($component)) { $__componentOriginal961fd52e8b5c06641e0f3abf274a081c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal961fd52e8b5c06641e0f3abf274a081c = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.title-task-manager','data' => ['text' => 'messages.Statuses']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.title-task-manager','data' => ['text' => 'messages.Statuses']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('title-task-manager'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['text' => 'messages.Statuses']); ?>
 <?php echo $__env->renderComponent(); ?>
@@ -94,4 +98,4 @@
 <?php unset($__componentOriginal961fd52e8b5c06641e0f3abf274a081c); ?>
 <?php endif; ?>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/segodnya/Desktop/hexlet/php-project-57/resources/views/status/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.main', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /Users/segodnya/Desktop/hexlet/php-project-57/resources/views/status/index.blade.php ENDPATH**/ ?>

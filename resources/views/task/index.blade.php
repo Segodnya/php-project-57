@@ -90,7 +90,7 @@
       <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="inline delete-form">
       @csrf
       @method('DELETE')
-      <button type="submit" class="link-base delete-btn">
+      <button type="submit" class="link-base delete-btn" data-confirm="{{ __('messages.Are you sure?') }}">
       {{ __('messages.Delete') }}
       </button>
       </form>
@@ -152,18 +152,3 @@
         </form>
     </div>
 @endsection
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.delete-form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (confirm('{{ __("messages.Are you sure?") }}')) {
-                this.submit();
-            }
-        });
-    });
-});
-</script>
-@endpush

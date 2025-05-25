@@ -15,8 +15,17 @@
                                 <x-task-status status="{{$task->status->name}}"/>
                             </div>
                             <div class="col-3 text-end pe-0">
-                                @can('create', App\Models\Task::class)
+                                @can('update', $task)
                                     <a class="text-secondary me-1" href="{{route('tasks.edit', $task)}}"><i class="bi bi-pencil hover:text-black"></i></a>
+                                @endcan
+                                @can('delete', $task)
+                                    <form method="POST" class="d-inline" action="{{ route('tasks.destroy', $task) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-secondary border-0 bg-transparent" data-confirm="{{ __('messages.Are you sure?') }}">
+                                            <i class="bi bi-trash hover:text-black"></i>
+                                        </button>
+                                    </form>
                                 @endcan
                                 <a class="text-secondary" href="{{route('tasks.index')}}"><i class="bi bi-x-lg hover:text-black"></i></a>
                             </div>

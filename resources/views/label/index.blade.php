@@ -27,7 +27,7 @@
                                 <form method="POST" class="d-inline delete-form" action="{{ route('labels.destroy', $label) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="nav-link border-0 bg-transparent delete-btn">
+                                    <button type="submit" class="nav-link border-0 bg-transparent delete-btn" data-confirm="{{ __('messages.Are you sure?') }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
@@ -53,36 +53,8 @@
 
         <x-hexlet-stub-test :objects="$labels"/>
     </section>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.delete-form').forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    if (confirm('{{ __("messages.Are you sure?") }}')) {
-                        this.submit();
-                    }
-                });
-            });
-        });
-    </script>
 @endsection
 
 @section('title')
     <x-title-task-manager text="messages.Label"/>
 @endsection
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.delete-form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (confirm('{{ __("messages.Are you sure?") }}')) {
-                this.submit();
-            }
-        });
-    });
-});
-</script>
-@endpush
