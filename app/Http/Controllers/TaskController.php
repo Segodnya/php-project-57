@@ -55,27 +55,20 @@ class TaskController extends Controller
 
     public function store(TaskRequest $request)
     {
-        try {
-            $data = $request->validated();
+        $data = $request->validated();
 
-            // Ensure data is processed as an array
-            $data = is_array($data) ? $data : [];
-            $labels = isset($data['label']) && is_array($data['label']) ? $data['label'] : [];
+        // Ensure data is processed as an array
+        $data = is_array($data) ? $data : [];
+        $labels = isset($data['label']) && is_array($data['label']) ? $data['label'] : [];
 
-            $task = new Task();
-            $task->fill($data);
-            $task->created_by_id = Auth::id();
-            $task->save();
-            $task->labels()->attach($labels);
+        $task = new Task();
+        $task->fill($data);
+        $task->created_by_id = Auth::id();
+        $task->save();
+        $task->labels()->attach($labels);
 
-            flash(__('messages.The task was successfully created'))->success();
-            return redirect()->route('tasks.index');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()
-                ->route('tasks.create')
-                ->withErrors($e->validator)
-                ->withInput();
-        }
+        flash(__('messages.The task was successfully created'))->success();
+        return redirect()->route('tasks.index');
     }
 
     public function show(Task $task)

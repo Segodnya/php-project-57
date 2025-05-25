@@ -16,6 +16,7 @@ parameters:
     - app/Models/User.php
     - app/Http/Controllers/Auth/*
     - tests/Feature/Auth/*
+    - tests/Browser/*
     - app/Http/Kernel.php
 
   reportUnmatchedIgnoredErrors: false
