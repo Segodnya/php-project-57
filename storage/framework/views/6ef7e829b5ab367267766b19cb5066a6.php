@@ -34,12 +34,12 @@
                                 </a>
                             <?php endif; ?>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete', $label)): ?>
-                                <form method="POST" class="d-inline delete-form" action="<?php echo e(route('labels.destroy', $label)); ?>">
+                                <a href="#" class="nav-link delete-link" data-id="<?php echo e($label->id); ?>" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>">
+                                    Удалить
+                                </a>
+                                <form id="delete-form-<?php echo e($label->id); ?>" method="POST" class="d-none" action="<?php echo e(route('labels.destroy', $label)); ?>">
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('DELETE'); ?>
-                                    <button type="submit" class="nav-link border-0 bg-transparent delete-btn" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>">
-                                        Удалить
-                                    </button>
                                 </form>
                             <?php endif; ?>
                         </div>

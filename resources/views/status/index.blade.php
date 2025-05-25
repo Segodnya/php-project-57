@@ -24,12 +24,12 @@
                                 </a>
                             @endcan
                             @can('delete', $status)
-                                <form method="POST" class="d-inline delete-form" action="{{ route('task_statuses.destroy', $status) }}">
+                                <a href="#" class="text-secondary link-underline link-underline-opacity-0 delete-link" data-id="{{ $status->id }}" data-confirm="{{ __('messages.Are you sure?') }}">
+                                    Удалить
+                                </a>
+                                <form id="delete-form-{{ $status->id }}" method="POST" class="d-none" action="{{ route('task_statuses.destroy', $status) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-secondary p-0.5 border-0 bg-transparent delete-btn" data-confirm="{{ __('messages.Are you sure?') }}">
-                                        Удалить
-                                    </button>
                                 </form>
                             @endcan
                           </div>
