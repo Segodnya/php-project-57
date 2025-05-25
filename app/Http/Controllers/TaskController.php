@@ -55,11 +55,10 @@ class TaskController extends Controller
 
     public function store(TaskRequest $request)
     {
+        /** @var array<string, mixed> $data */
         $data = $request->validated();
-
-        // Ensure data is processed as an array
-        $data = is_array($data) ? $data : [];
-        $labels = isset($data['label']) && is_array($data['label']) ? $data['label'] : [];
+        /** @var array<int, int> $labels */
+        $labels = isset($data['label']) ? (array) $data['label'] : [];
 
         $task = new Task();
         $task->fill($data);
@@ -86,11 +85,10 @@ class TaskController extends Controller
 
     public function update(TaskRequest $request, Task $task)
     {
+        /** @var array<string, mixed> $data */
         $data = $request->validated();
-
-        // Ensure data is processed as an array
-        $data = is_array($data) ? $data : [];
-        $labels = isset($data['label']) && is_array($data['label']) ? $data['label'] : [];
+        /** @var array<int, int> $labels */
+        $labels = isset($data['label']) ? (array) $data['label'] : [];
 
         $task->fill($data);
         $task->save();
