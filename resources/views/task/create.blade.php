@@ -9,59 +9,54 @@
         </x-slot>
     </x-page-header>
 
-    <x-form-container :action="route('tasks.store')" class="mt-6">
+    <form action="{{ route('tasks.store') }}" method="POST" class="mt-6">
+        @csrf
+        
         <div class="grid grid-cols-3 gap-6">
             <div class="col-span-2">
-                <x-form-field 
+                <x-form.input 
                     name="name"
-                    label="messages.Title"
+                    :label="__('messages.Title')"
                     :value="$task->name"
-                    class="form-input-base"
                 />
                 
-                <x-form-field 
+                <x-form.textarea 
                     name="description"
-                    label="messages.Description"
-                    type="textarea"
-                    class="form-input-base h-48"
-                >{{ $task->description }}</x-form-field>
+                    :label="__('messages.Description')"
+                    :value="$task->description"
+                    class="h-48"
+                />
                 
-                <x-form-field 
+                <x-form.select 
                     name="assigned_to_id"
-                    label="messages.Executor"
-                    type="select"
+                    :label="__('messages.Executor')"
                     :options="$users"
                     placeholder="------------"
-                    class="form-input-base"
                 />
             </div>
             
             <div>
-                <x-form-field 
+                <x-form.select 
                     name="status_id"
-                    label="messages.Status"
-                    type="select"
+                    :label="__('messages.Status')"
                     :options="$statuses"
-                    class="form-input-base"
                 />
 
-                <x-form-field 
+                <x-form.select 
                     name="labels[]"
-                    label="messages.Labels"
-                    type="select"
+                    :label="__('messages.Labels')"
                     :options="$labels"
                     multiple
-                    class="form-input-base"
                 />
             </div>
         </div>
 
-        <x-slot name="actions">
+        <div class="mt-4">
             <button type="submit" class="btn-primary">
                 {{ __('messages.Create Task') }}
             </button>
-        </x-slot>
-    </x-form-container>
+        </div>
+    </form>
 @endsection
 
 @section('title')

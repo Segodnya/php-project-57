@@ -23,28 +23,14 @@ jobs:
     - name: Copy .env file
       run: cp .env.example .env
 
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Setup Application
+      run: make setup
 
-    - name: Generate key
-      run: php artisan key:generate
+    - name: Run Code Style Check
+      run: make lint
 
-    - name: Create Database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
+    - name: Run Static Analysis
+      run: make phpstan
 
-    - name: Run Migrations
-      run: php artisan migrate
-
-    - name: Install NPM Dependencies
-      run: npm ci
-
-    - name: Build assets
-      run: npm run build
-
-    - name: Run PHP Code Sniffer
-      run: composer phpcs
-
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: php artisan test 
+    - name: Run Tests
+      run: make test 

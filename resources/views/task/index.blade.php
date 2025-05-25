@@ -112,16 +112,43 @@
 @endsection
 
 @section('filter')
-    <div class="mb-3"> 
-    {!! Form::open(['class' => 'form', 'route' => 'tasks.index', 'method' => 'get']) !!}
-    <div class="row">
-      <div class="col-2">{!! Form::select('filter[status_id]', $statuses, $filter['status_id'] ?? null, ['placeholder' => __('messages.Status'), 'class' => 'form-control']) !!}</div>
-      <div class="col-4">{!! Form::select('filter[created_by_id]', $users, $filter['created_by_id'] ?? null, ['placeholder' => 'Автор', 'class' => 'form-control']) !!}</div>
-      <div class="col-4">{!! Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null, ['placeholder' => __('messages.Executor'), 'class' => 'form-control']) !!}</div>
-      <div class="col-2 d-flex justify-content-end">
-        {!! Form::submit(__('messages.Apply'), ['class' => 'btn btn-primary']) !!}
-      </div>
-    </div>
-    {!! Form::close() !!}
+    <div class="mb-3">
+        <form action="{{ route('tasks.index') }}" method="GET" class="form">
+            <div class="row">
+                <div class="col-2">
+                    <select name="filter[status_id]" class="form-control">
+                        <option value="">{{ __('messages.Status') }}</option>
+                        @foreach($statuses as $id => $name)
+                            <option value="{{ $id }}" {{ isset($filter['status_id']) && $filter['status_id'] == $id ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-4">
+                    <select name="filter[created_by_id]" class="form-control">
+                        <option value="">{{ __('messages.Author') }}</option>
+                        @foreach($users as $id => $name)
+                            <option value="{{ $id }}" {{ isset($filter['created_by_id']) && $filter['created_by_id'] == $id ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-4">
+                    <select name="filter[assigned_to_id]" class="form-control">
+                        <option value="">{{ __('messages.Executor') }}</option>
+                        @foreach($users as $id => $name)
+                            <option value="{{ $id }}" {{ isset($filter['assigned_to_id']) && $filter['assigned_to_id'] == $id ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-2 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">{{ __('messages.Apply') }}</button>
+                </div>
+            </div>
+        </form>
     </div>
 @endsection
