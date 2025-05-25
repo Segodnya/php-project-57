@@ -13,10 +13,10 @@ Alpine.start();
 document.addEventListener('DOMContentLoaded', function() {
     // Use event delegation for better reliability
     document.body.addEventListener('click', function(e) {
-        // Find the delete link or button
+        // Find the delete button by traversing up from the clicked element
         const deleteElement = e.target.closest('.delete-btn') || 
-                              e.target.closest('[data-method="delete"]') || 
-                              e.target.closest('a[href*="delete"]');
+                            e.target.closest('[data-method="delete"]') || 
+                            e.target.closest('a[href*="delete"]');
         
         if (deleteElement) {
             e.preventDefault();

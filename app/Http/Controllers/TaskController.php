@@ -71,7 +71,8 @@ class TaskController extends Controller
             flash(__('messages.The task was successfully created'))->success();
             return redirect()->route('tasks.index');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->route('tasks.create')
+            return redirect()
+                ->route('tasks.create')
                 ->withErrors($e->validator)
                 ->withInput();
         }
