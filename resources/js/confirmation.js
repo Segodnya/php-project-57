@@ -1,15 +1,3 @@
-import './bootstrap';
-
-import Alpine from 'alpinejs';
-
-import ujs from '@rails/ujs';
-ujs.start();
-
-window.Alpine = Alpine;
-
-Alpine.start();
-
-// Add confirmation dialogs for delete actions
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', function(e) {
@@ -21,4 +9,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
+}); 

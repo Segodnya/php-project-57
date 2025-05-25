@@ -19,10 +19,10 @@
                                     <a class="text-secondary me-1" href="{{route('tasks.edit', $task)}}"><i class="bi bi-pencil hover:text-black"></i></a>
                                 @endcan
                                 @can('delete', $task)
-                                    <form method="POST" class="d-inline" action="{{ route('tasks.destroy', $task) }}">
+                                    <form method="POST" class="d-inline delete-form" action="{{ route('tasks.destroy', $task) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-secondary border-0 bg-transparent" data-confirm="{{ __('messages.Are you sure?') }}">
+                                        <button type="submit" class="text-secondary border-0 bg-transparent delete-btn" data-confirm="{{ __('messages.Are you sure?') }}">
                                             <i class="bi bi-trash hover:text-black"></i>
                                         </button>
                                     </form>
@@ -45,13 +45,19 @@
                     @endforeach
                 </div>
                 <div class="row">
-                    <div class="col-8">
-                        <p class="m-0">{{__('messages.Author')}}: {{$task->author->name}}</p>
-                        <p class="m-0">{{__('messages.Executor')}}: {{$task->assignedToUser->name}}</p>
-                      </div>
+                    <div class="col-12">
+                        <p class="text-secondary m-0">
+                            {{ __('messages.Created by') }}: {{$task->author->name}} | 
+                            {{ __('messages.Created at') }}: {{$task->formatted_date}} | 
+                            {{ __('messages.Executor') }}: {{$task->assignedToUser->name ?? '-'}}
+                        </p>
+                    </div>
                 </div>
-                <p class="text-secondary position-absolute bottom-0 end-0 p-2 m-0">{{$task->created_at}}</p>
             </div>
         </div>
     </div>
+@endsection
+
+@section('title')
+    <x-title-task-manager text="messages.View task"/>
 @endsection

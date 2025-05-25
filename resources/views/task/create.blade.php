@@ -17,13 +17,14 @@
                 <x-form.input 
                     name="name"
                     :label="__('messages.Title')"
-                    :value="$task->name"
+                    :value="old('name', $task->name)"
+                    required
                 />
                 
                 <x-form.textarea 
                     name="description"
                     :label="__('messages.Description')"
-                    :value="$task->description"
+                    :value="old('description', $task->description)"
                     class="h-48"
                 />
                 
@@ -31,6 +32,7 @@
                     name="assigned_to_id"
                     :label="__('messages.Executor')"
                     :options="$users"
+                    :value="old('assigned_to_id')"
                     placeholder="------------"
                 />
             </div>
@@ -40,12 +42,15 @@
                     name="status_id"
                     :label="__('messages.Status')"
                     :options="$statuses"
+                    :value="old('status_id')"
+                    required
                 />
 
                 <x-form.select 
-                    name="labels[]"
+                    name="label[]"
                     :label="__('messages.Labels')"
                     :options="$labels"
+                    :value="old('label', [])"
                     multiple
                 />
             </div>
@@ -53,7 +58,7 @@
 
         <div class="mt-4">
             <button type="submit" class="btn-primary">
-                {{ __('messages.Создать') }}
+                {{ __('messages.Create') }}
             </button>
         </div>
     </form>

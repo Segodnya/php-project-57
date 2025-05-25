@@ -25,10 +25,10 @@
                                 </a>
                             @endcan
                             @can('delete', $status)
-                                <form method="POST" class="d-inline" action="{{ route('task_statuses.destroy', $status) }}">
+                                <form method="POST" class="d-inline delete-form" action="{{ route('task_statuses.destroy', $status) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-secondary p-0.5 border-0 bg-transparent" data-confirm="{{ __('messages.Are you sure?') }}">
+                                    <button type="submit" class="text-secondary p-0.5 border-0 bg-transparent delete-btn" data-confirm="{{ __('messages.Are you sure?') }}">
                                         <i class="bi bi-trash hover:text-black"></i>
                                         <p class="d-none">{{__('messages.Delete')}}</p>
                                     </button>

@@ -1,4 +1,4 @@
-@props(['name', 'label', 'options' => [], 'placeholder' => null])
+@props(['name', 'label', 'options' => [], 'placeholder' => null, 'value' => null])
 
 <div class="mb-4">
     <label for="{{ $name }}" class="form-label">
@@ -15,7 +15,7 @@
         @endif
         
         @foreach ($options as $value => $label)
-            <option value="{{ $value }}">
+            <option value="{{ $value }}" {{ old($name, $value) == $value ? 'selected' : '' }}>
                 {{ $label }}
             </option>
         @endforeach
