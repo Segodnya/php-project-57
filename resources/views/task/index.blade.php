@@ -91,12 +91,12 @@
       </a>
       @endcan
         @can('delete', $task)
-      <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="inline delete-form">
-      @csrf
-      @method('DELETE')
-      <a href="#" class="link-base delete-btn" data-confirm="{{ __('messages.Are you sure?') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+      <a href="#" class="link-base delete-link" data-id="{{ $task->id }}" data-confirm="{{ __('messages.Are you sure?') }}">
         Удалить
       </a>
+      <form id="delete-form-{{ $task->id }}" method="POST" class="d-none" action="{{ route('tasks.destroy', $task) }}">
+        @csrf
+        @method('DELETE')
       </form>
       @endcan
         </div>

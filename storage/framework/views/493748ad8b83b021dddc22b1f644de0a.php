@@ -197,12 +197,12 @@
       </a>
       <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete', $task)): ?>
-      <form method="POST" action="<?php echo e(route('tasks.destroy', $task)); ?>" class="inline delete-form">
-      <?php echo csrf_field(); ?>
-      <?php echo method_field('DELETE'); ?>
-      <a href="#" class="link-base delete-btn" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>" onclick="event.preventDefault(); this.closest('form').submit();">
+      <a href="#" class="link-base delete-link" data-id="<?php echo e($task->id); ?>" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>">
         Удалить
       </a>
+      <form id="delete-form-<?php echo e($task->id); ?>" method="POST" class="d-none" action="<?php echo e(route('tasks.destroy', $task)); ?>">
+        <?php echo csrf_field(); ?>
+        <?php echo method_field('DELETE'); ?>
       </form>
       <?php endif; ?>
         </div>
