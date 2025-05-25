@@ -22,6 +22,7 @@ class LabelControllerTest extends TestCase
     {
         parent::setUp();
 
+        /** @var Label $label */
         $label = Label::factory()->make();
 
         // Create models directly
@@ -37,7 +38,7 @@ class LabelControllerTest extends TestCase
         $taskModel = Task::factory()->create();
         $this->task = $taskModel;
         $this->tableName = $label->getTable();
-        $this->formData = $label->only(
+        $this->formData = (array) $label->only(
             [
                 'name',
                 'description',

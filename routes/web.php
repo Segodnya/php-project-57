@@ -25,7 +25,7 @@ Route::get('/', function () {
 Route::get('task_statuses', [TaskStatusesController::class, 'index'])->name('task_statuses.index');
 Route::get('labels', [LabelController::class, 'index'])->name('labels.index');
 Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
-Route::get('tasks/create', [TaskController::class, 'create'])->middleware('auth')->name('tasks.create');
+Route::middleware(['auth'])->get('tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
 
 // Protected routes

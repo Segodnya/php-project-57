@@ -14,7 +14,7 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         $task = $this->route('task');
-        $taskId = $task && is_object($task) ? ',' . $task->id : '';
+        $taskId = $task && is_object($task) && property_exists($task, 'id') ? ',' . $task->id : '';
 
         return [
             'name' => 'required|unique:tasks,name' . $taskId,

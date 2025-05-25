@@ -20,6 +20,7 @@ class TaskStatusesControllerTest extends TestCase
     {
         parent::setUp();
 
+        /** @var TaskStatus $taskStatus */
         $taskStatus = TaskStatus::factory()->make();
 
         // Create models directly
@@ -31,7 +32,7 @@ class TaskStatusesControllerTest extends TestCase
         $taskStatusModel = TaskStatus::factory()->create();
         $this->taskStatus = $taskStatusModel;
         $this->tableName = $taskStatus->getTable();
-        $this->formData = $taskStatus->only(['name']);
+        $this->formData = (array) $taskStatus->only(['name']);
     }
 
     public function testIndex(): void

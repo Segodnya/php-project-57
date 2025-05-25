@@ -19,6 +19,7 @@ class TaskControllerTest extends TestCase
     {
         parent::setUp();
 
+        /** @var Task $task */
         $task = Task::factory()->make();
 
         // Create models directly
@@ -30,7 +31,7 @@ class TaskControllerTest extends TestCase
         $taskModel = Task::factory()->create();
         $this->task = $taskModel;
         $this->tableName = $task->getTable();
-        $this->formData = $task->only(
+        $this->formData = (array) $task->only(
             [
                 'name',
                 'description',
