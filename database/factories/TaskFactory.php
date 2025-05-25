@@ -20,7 +20,7 @@ class TaskFactory extends Factory
     {
         $status = TaskStatus::first() ?? TaskStatus::factory()->create(['name' => 'новый']);
         $user = User::first() ?? User::factory()->create();
-        
+
         return [
             'name' => fake()->unique()->name(),
             'description' => fake()->text,
