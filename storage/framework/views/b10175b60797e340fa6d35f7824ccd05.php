@@ -40,6 +40,8 @@ unset($__defined_vars); ?>
     <select
         id="<?php echo e($name); ?>"
         name="<?php echo e(str_ends_with($name, '[]') ? $name : $name); ?>"
+        <?php echo e($attributes->has('required') ? 'required' : ''); ?>
+
         <?php echo e($attributes->merge(['class' => 'form-input-base ' . ($errors->has(str_replace('[]', '', $name)) ? 'border-red-500' : '')])); ?>
 
     >

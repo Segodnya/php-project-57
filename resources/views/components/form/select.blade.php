@@ -11,6 +11,7 @@
     <select
         id="{{ $name }}"
         name="{{ str_ends_with($name, '[]') ? $name : $name }}"
+        {{ $attributes->has('required') ? 'required' : '' }}
         {{ $attributes->merge(['class' => 'form-input-base ' . ($errors->has(str_replace('[]', '', $name)) ? 'border-red-500' : '')]) }}
     >
         @if($placeholder)

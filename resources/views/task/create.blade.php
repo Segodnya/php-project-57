@@ -43,6 +43,7 @@
                     :label="__('messages.Status')"
                     :options="$statuses"
                     :value="old('status_id')"
+                    placeholder="------------"
                     required
                 />
 

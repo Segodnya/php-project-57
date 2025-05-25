@@ -98,14 +98,14 @@
             <div>
                 <?php if (isset($component)) { $__componentOriginal8cee41e4af1fe2df52d1d5acd06eed36 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal8cee41e4af1fe2df52d1d5acd06eed36 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.form.select','data' => ['name' => 'status_id','label' => __('messages.Status'),'options' => $statuses,'value' => old('status_id'),'required' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.form.select','data' => ['name' => 'status_id','label' => __('messages.Status'),'options' => $statuses,'value' => old('status_id'),'placeholder' => '------------','required' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('form.select'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'status_id','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('messages.Status')),'options' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($statuses),'value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(old('status_id')),'required' => true]); ?>
+<?php $component->withAttributes(['name' => 'status_id','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('messages.Status')),'options' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($statuses),'value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(old('status_id')),'placeholder' => '------------','required' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal8cee41e4af1fe2df52d1d5acd06eed36)): ?>
