@@ -5,16 +5,24 @@ namespace Tests\Feature\Http\Controller;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Contracts\Auth\Authenticatable;
 
+/**
+ * @property TaskStatus $taskStatus
+ * @property Authenticatable $user
+ * @property array<string, string> $formData
+ * @property string $tableName
+ */
 class TaskStatusesControllerTest extends TestCase
 {
-    private string $tableName;
-    private array $formData;
-    /** @var User */
-    private User $user;
-    /** @var TaskStatus */
-    private TaskStatus $taskStatus;
+    use RefreshDatabase;
+
+    protected string $tableName;
+    protected array $formData;
+    protected Authenticatable $user;
+    protected TaskStatus $taskStatus;
 
     protected function setUp(): void
     {
@@ -24,7 +32,7 @@ class TaskStatusesControllerTest extends TestCase
         $taskStatus = TaskStatus::factory()->make();
 
         // Create models directly
-        /** @var User $user */
+        /** @var Authenticatable $user */
         $user = User::factory()->create();
         $this->user = $user;
 
@@ -68,6 +76,19 @@ class TaskStatusesControllerTest extends TestCase
             ->assertSessionHasErrors(['name']);
     }
 
+    public function testStoreUniqueField(): void
+    {
+        /** @var TaskStatus $existingStatus */
+        $existingStatus = TaskStatus::factory()->create();
+        $data = ['name' => $existingStatus->name];
+
+        $this->actingAs($this->user)
+            ->post(route('task_statuses.store', $data))
+            ->assertSessionHasErrors(['name']);
+
+        $this->assertDatabaseCount($this->tableName, 2); // Only the existing status and the one created in setUp()
+    }
+
     public function testEdit(): void
     {
         $this->actingAs($this->user)->get(route('task_statuses.edit', $this->taskStatus))
@@ -88,6 +109,22 @@ class TaskStatusesControllerTest extends TestCase
             ->assertRedirect(route('task_statuses.index'));
 
         $this->assertDatabaseHas($this->tableName, $this->formData);
+    }
+
+    public function testUpdateUniqueField(): void
+    {
+        /** @var TaskStatus $existingStatus */
+        $existingStatus = TaskStatus::factory()->create();
+        /** @var TaskStatus $anotherStatus */
+        $anotherStatus = TaskStatus::factory()->create();
+        $data = ['name' => $existingStatus->name];
+
+        $this->actingAs($this->user)
+            ->patch(route('task_statuses.update', $anotherStatus), $data)
+            ->assertSessionHasErrors(['name']);
+
+        $this->assertDatabaseHas($this->tableName, ['name' => $existingStatus->name]);
+        $this->assertDatabaseHas($this->tableName, ['name' => $anotherStatus->name]);
     }
 
     public function testDestroy(): void

@@ -70,4 +70,7 @@ return [
     'Greetings from Hexlet!' => 'Привет от Хекслета!',
     'This is a simple task manager on Laravel' => 'Это простой менеджер задач на Laravel',
     'Push me' => 'Нажми меня',
+    'This is a required field' => 'Это обязательное поле',
+    'A status with this name already exists' => 'Статус с таким именем уже существует',
+    'A task with this name already exists' => 'Задача с таким именем уже существует',
 ];
