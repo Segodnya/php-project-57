@@ -5,15 +5,23 @@ namespace Tests\Feature\Http\Controller;
 use App\Models\Task;
 use App\Models\User;
 use Tests\TestCase;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * @property Task $task
+ * @property Authenticatable $user
+ * @property array<string, int|string|null> $formData
+ * @property string $tableName
+ */
 class TaskControllerTest extends TestCase
 {
-    private string $tableName;
-    private array $formData;
-    /** @var User */
-    private User $user;
-    /** @var Task */
-    private Task $task;
+    use RefreshDatabase;
+
+    protected string $tableName;
+    protected array $formData;
+    protected Authenticatable $user;
+    protected Task $task;
 
     protected function setUp(): void
     {
@@ -31,7 +39,7 @@ class TaskControllerTest extends TestCase
         $taskModel = Task::factory()->create();
         $this->task = $taskModel;
         $this->tableName = $task->getTable();
-        $this->formData = (array) $task->only(
+        $this->formData = $task->only(
             [
                 'name',
                 'description',

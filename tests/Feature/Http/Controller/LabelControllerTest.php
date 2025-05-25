@@ -6,17 +6,25 @@ use App\Models\Label;
 use App\Models\User;
 use App\Models\Task;
 use Tests\TestCase;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * @property Label $label
+ * @property Task $task
+ * @property Authenticatable $user
+ * @property array<string, string|null> $formData
+ * @property string $tableName
+ */
 class LabelControllerTest extends TestCase
 {
-    private string $tableName;
-    private array $formData;
-    /** @var User */
-    private User $user;
-    /** @var Label */
-    private Label $label;
-    /** @var Task */
-    private Task $task;
+    use RefreshDatabase;
+
+    protected string $tableName;
+    protected array $formData;
+    protected Authenticatable $user;
+    protected Label $label;
+    protected Task $task;
 
     protected function setUp(): void
     {
@@ -38,7 +46,7 @@ class LabelControllerTest extends TestCase
         $taskModel = Task::factory()->create();
         $this->task = $taskModel;
         $this->tableName = $label->getTable();
-        $this->formData = (array) $label->only(
+        $this->formData = $label->only(
             [
                 'name',
                 'description',
