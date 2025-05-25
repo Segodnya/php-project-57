@@ -13,16 +13,27 @@ Alpine.start();
 document.addEventListener('DOMContentLoaded', function() {
     // Use event delegation for better reliability
     document.body.addEventListener('click', function(e) {
-        // Find the closest delete button or its child icon
-        const deleteBtn = e.target.closest('.delete-btn') || e.target.closest('.delete-btn i');
-        if (deleteBtn) {
+        // Find the delete link or button
+        const deleteElement = e.target.closest('[data-method="delete"]') || 
+                            e.target.closest('.delete-btn') || 
+                            e.target.closest('a[href*="delete"]');
+        
+        if (deleteElement) {
             e.preventDefault();
             e.stopPropagation();
             
-            const form = deleteBtn.closest('.delete-form');
-            const confirmMessage = deleteBtn.dataset.confirm || (form && form.querySelector('.delete-btn').dataset.confirm);
+            // Get confirmation message from data attribute or use default
+            const confirmMessage = deleteElement.dataset.confirm || 'Вы уверены?';
             
-            if (confirmMessage && window.confirm(confirmMessage)) {
+            if (window.confirm(confirmMessage)) {
+                // If it's a Rails UJS delete link
+                if (deleteElement.hasAttribute('data-method')) {
+                    // Let Rails UJS handle it
+                    return true;
+                }
+                
+                // For regular delete buttons/forms
+                const form = deleteElement.closest('form') || deleteElement.querySelector('form');
                 if (form) {
                     form.submit();
                 }

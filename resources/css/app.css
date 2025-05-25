@@ -20,11 +20,19 @@
 
     /* Form error styles */
     .form-error {
-        @apply text-sm text-red-600 mt-1 block;
+        @apply text-sm text-red-600 mt-1 block font-medium;
     }
 
-    .form-error li {
-        @apply list-none;
+    .form-error div {
+        @apply mb-1 last:mb-0;
+    }
+
+    .form-group {
+        @apply mb-4;
+    }
+
+    .form-label {
+        @apply block text-sm font-medium text-gray-700 mb-1;
     }
 
     /* Common button styles */
