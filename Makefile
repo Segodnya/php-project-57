@@ -1,13 +1,13 @@
+clear:
+	php artisan view:clear && php artisan config:clear && php artisan cache:clear
+
 start:
 	php artisan serve --host 0.0.0.0
 
 start-frontend:
 	npm run dev
 
-validate-and-start: validate lint 
-	-make phpstan || true
-	make test || true
-	make start
+validate-and-start: clear setup validate lint phpstan test start
 
 setup:
 	composer install
@@ -43,9 +43,6 @@ test:
 test-coverage:
 	XDEBUG_MODE=coverage php artisan test --coverage-clover build/logs/clover.xml
 
-deploy:
-	git push heroku
-
 lint:
 	composer phpcs
 
@@ -54,18 +51,6 @@ lint-fix:
 
 compose:
 	docker-compose up
-
-compose-test:
-	docker-compose run web make test
-
-compose-bash:
-	docker-compose run web bash
-
-compose-setup: compose-build
-	docker-compose run web make setup
-
-compose-build:
-	docker-compose build
 
 compose-db:
 	docker-compose exec db psql -U postgres

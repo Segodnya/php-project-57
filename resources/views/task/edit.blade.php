@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <form action="{{ route('tasks.update', $task) }}" method="POST" class="form">
+    <form action="{{ route('tasks.update', $task) }}" method="POST" class="form" novalidate>
         @csrf
         @method('PATCH')
         <div class="row square border border-light bg-slate-100 rounded p-3 m-0 d-flex justify-content-center">

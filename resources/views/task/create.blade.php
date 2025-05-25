@@ -9,7 +9,7 @@
         </x-slot>
     </x-page-header>
 
-    <form action="{{ route('tasks.store') }}" method="POST" class="mt-6">
+    <form action="{{ route('tasks.store') }}" method="POST" class="mt-6" novalidate>
         @csrf
         
         <div class="grid grid-cols-3 gap-6">
