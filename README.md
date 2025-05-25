@@ -3,6 +3,8 @@
 [![Actions Status](https://github.com/Segodnya/php-project-57/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Segodnya/php-project-57/actions)
 [![PHP CI](https://github.com/Segodnya/php-project-57/actions/workflows/php-ci.yml/badge.svg)](https://github.com/Segodnya/php-project-57/actions/workflows/php-ci.yml)
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=Segodnya_php-project-57)](https://sonarcloud.io/summary/new_code?id=Segodnya_php-project-57)
+
 # Task Manager
 
 Task Manager is a task management system similar to [Redmine](http://www.redmine.org/). It allows you to create tasks, assign executors, and change task statuses. Registration and authentication are required to work with the system.

@@ -20,8 +20,7 @@
                           <div class="col-2 p-0">
                             @can('update', $status)
                                 <a class="text-secondary link-underline link-underline-opacity-0" href="{{route('task_statuses.edit', $status)}}">
-                                  <i class="bi bi-pencil hover:text-black"></i>
-                                  <p class="d-none">{{__('messages.To change')}}</p>
+                                    Изменить
                                 </a>
                             @endcan
                             @can('delete', $status)
@@ -29,8 +28,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-secondary p-0.5 border-0 bg-transparent delete-btn" data-confirm="{{ __('messages.Are you sure?') }}">
-                                        <i class="bi bi-trash hover:text-black"></i>
-                                        <p class="d-none">{{__('messages.Delete')}}</p>
+                                        Удалить
                                     </button>
                                 </form>
                             @endcan

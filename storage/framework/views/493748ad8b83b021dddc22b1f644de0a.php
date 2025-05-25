@@ -175,7 +175,12 @@
       <?php $__currentLoopData = $tasks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
       <tr>
       <td class="table-cell"><?php echo e($task->id); ?></td>
-      <td class="table-cell"><?php echo e($task->name); ?></td>
+      <td class="table-cell">
+        <a href="<?php echo e(route('tasks.show', $task)); ?>" class="link-base">
+          <?php echo e($task->name); ?>
+
+        </a>
+      </td>
       <td class="table-cell"><?php echo e($task->status->name ?? ''); ?></td>
       <td class="table-cell"><?php echo e($task->formatted_date); ?></td>
       <td class="table-cell"><?php echo e($task->author->name ?? ''); ?></td>
@@ -188,18 +193,16 @@
         </a>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('update', $task)): ?>
       <a href="<?php echo e(route('tasks.edit', $task)); ?>" class="link-base">
-      <?php echo e(__('messages.Edit')); ?>
-
+        Изменить
       </a>
       <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete', $task)): ?>
       <form method="POST" action="<?php echo e(route('tasks.destroy', $task)); ?>" class="inline delete-form">
       <?php echo csrf_field(); ?>
       <?php echo method_field('DELETE'); ?>
-      <button type="submit" class="link-base delete-btn" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>">
-      <?php echo e(__('messages.Delete')); ?>
-
-      </button>
+      <a href="#" class="link-base delete-btn" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>" onclick="event.preventDefault(); this.closest('form').submit();">
+        Удалить
+      </a>
       </form>
       <?php endif; ?>
         </div>

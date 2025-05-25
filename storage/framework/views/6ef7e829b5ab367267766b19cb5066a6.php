@@ -30,7 +30,7 @@
                         <div class="p-2">
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('update', $label)): ?>
                                 <a href="<?php echo e(route('labels.edit', $label)); ?>" class="nav-link">
-                                    <i class="bi bi-pencil"></i>
+                                    Изменить
                                 </a>
                             <?php endif; ?>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete', $label)): ?>
@@ -38,7 +38,7 @@
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('DELETE'); ?>
                                     <button type="submit" class="nav-link border-0 bg-transparent delete-btn" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>">
-                                        <i class="bi bi-trash"></i>
+                                        Удалить
                                     </button>
                                 </form>
                             <?php endif; ?>

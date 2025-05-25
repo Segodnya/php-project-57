@@ -20,8 +20,7 @@
                           <div class="col-2 p-0">
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('update', $status)): ?>
                                 <a class="text-secondary link-underline link-underline-opacity-0" href="<?php echo e(route('task_statuses.edit', $status)); ?>">
-                                  <i class="bi bi-pencil hover:text-black"></i>
-                                  <p class="d-none"><?php echo e(__('messages.To change')); ?></p>
+                                    Изменить
                                 </a>
                             <?php endif; ?>
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete', $status)): ?>
@@ -29,8 +28,7 @@
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('DELETE'); ?>
                                     <button type="submit" class="text-secondary p-0.5 border-0 bg-transparent delete-btn" data-confirm="<?php echo e(__('messages.Are you sure?')); ?>">
-                                        <i class="bi bi-trash hover:text-black"></i>
-                                        <p class="d-none"><?php echo e(__('messages.Delete')); ?></p>
+                                        Удалить
                                     </button>
                                 </form>
                             <?php endif; ?>

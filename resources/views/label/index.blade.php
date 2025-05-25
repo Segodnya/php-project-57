@@ -20,7 +20,7 @@
                         <div class="p-2">
                             @can('update', $label)
                                 <a href="{{ route('labels.edit', $label) }}" class="nav-link">
-                                    <i class="bi bi-pencil"></i>
+                                    Изменить
                                 </a>
                             @endcan
                             @can('delete', $label)
@@ -28,7 +28,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="nav-link border-0 bg-transparent delete-btn" data-confirm="{{ __('messages.Are you sure?') }}">
-                                        <i class="bi bi-trash"></i>
+                                        Удалить
                                     </button>
                                 </form>
                             @endcan

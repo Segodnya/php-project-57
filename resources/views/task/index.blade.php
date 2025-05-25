@@ -71,7 +71,11 @@
       @foreach ($tasks as $task)
       <tr>
       <td class="table-cell">{{ $task->id }}</td>
-      <td class="table-cell">{{ $task->name }}</td>
+      <td class="table-cell">
+        <a href="{{ route('tasks.show', $task) }}" class="link-base">
+          {{ $task->name }}
+        </a>
+      </td>
       <td class="table-cell">{{ $task->status->name ?? '' }}</td>
       <td class="table-cell">{{ $task->formatted_date }}</td>
       <td class="table-cell">{{ $task->author->name ?? '' }}</td>
@@ -83,16 +87,16 @@
         </a>
         @can('update', $task)
       <a href="{{ route('tasks.edit', $task) }}" class="link-base">
-      {{ __('messages.Edit') }}
+        Изменить
       </a>
       @endcan
         @can('delete', $task)
       <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="inline delete-form">
       @csrf
       @method('DELETE')
-      <button type="submit" class="link-base delete-btn" data-confirm="{{ __('messages.Are you sure?') }}">
-      {{ __('messages.Delete') }}
-      </button>
+      <a href="#" class="link-base delete-btn" data-confirm="{{ __('messages.Are you sure?') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+        Удалить
+      </a>
       </form>
       @endcan
         </div>
