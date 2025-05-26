@@ -46,13 +46,13 @@ class TaskStatusesControllerTest extends TestCase
     public function testIndex(): void
     {
         $this->actingAs($this->user)->get(route('task_statuses.index'))
-            ->assertStatus(200);
+           ->assertOk();
     }
 
     public function testCreate(): void
     {
         $this->actingAs($this->user)->get(route('task_statuses.create'))
-            ->assertStatus(200);
+           ->assertOk();
     }
 
     public function testCreateUnathorized(): void
@@ -92,7 +92,7 @@ class TaskStatusesControllerTest extends TestCase
     public function testEdit(): void
     {
         $this->actingAs($this->user)->get(route('task_statuses.edit', $this->taskStatus))
-            ->assertStatus(200);
+           ->assertOk();
     }
 
     public function testEditUnathorized(): void

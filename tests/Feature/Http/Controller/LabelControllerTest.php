@@ -57,13 +57,13 @@ class LabelControllerTest extends TestCase
     public function testIndex(): void
     {
         $this->actingAs($this->user)->get(route('labels.index'))
-            ->assertStatus(200);
+           ->assertOk();
     }
 
     public function testCreate(): void
     {
         $this->actingAs($this->user)->get(route('labels.create'))
-            ->assertStatus(200);
+           ->assertOk();
     }
 
     public function testCreateUnathorized(): void
@@ -90,7 +90,7 @@ class LabelControllerTest extends TestCase
     public function testEdit(): void
     {
         $this->actingAs($this->user)->get(route('labels.edit', $this->label))
-            ->assertStatus(200);
+           ->assertOk();
     }
 
     public function testEditUnathorized(): void

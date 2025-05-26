@@ -52,13 +52,13 @@ class TaskControllerTest extends TestCase
     public function testIndex(): void
     {
         $this->get(route('tasks.index'))
-            ->assertStatus(200);
+           ->assertOk();
     }
 
     public function testCreate(): void
     {
         $this->actingAs($this->user)->get(route('tasks.create'))
-            ->assertStatus(200);
+           ->assertOk();
     }
 
     public function testCreateUnathorized(): void
@@ -87,7 +87,7 @@ class TaskControllerTest extends TestCase
         $task = Task::factory()->create(['created_by_id' => $this->user]);
         $this->actingAs($this->user)
             ->get(route('tasks.edit', $task))
-            ->assertStatus(200);
+           ->assertOk();
     }
 
     public function testEditUnathorized(): void
