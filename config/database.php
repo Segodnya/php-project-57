@@ -66,16 +66,20 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', parse_url(env('DATABASE_URL'), PHP_URL_HOST) ?: '127.0.0.1'),
-            'port' => env('DB_PORT', parse_url(env('DATABASE_URL'), PHP_URL_PORT) ?: '5432'),
-            'database' => env('DB_DATABASE', substr(parse_url(env('DATABASE_URL'), PHP_URL_PATH), 1) ?: 'forge'),
-            'username' => env('DB_USERNAME', parse_url(env('DATABASE_URL'), PHP_URL_USER) ?: 'forge'),
-            'password' => env('DB_PASSWORD', parse_url(env('DATABASE_URL'), PHP_URL_PASS) ?: ''),
+            'host' => env('DB_HOST', function_exists('parse_url') && !empty(env('DATABASE_URL')) ? parse_url(env('DATABASE_URL'), PHP_URL_HOST) : '127.0.0.1'),
+            'port' => env('DB_PORT', function_exists('parse_url') && !empty(env('DATABASE_URL')) ? parse_url(env('DATABASE_URL'), PHP_URL_PORT) : '5432'),
+            'database' => env('DB_DATABASE', function_exists('parse_url') && !empty(env('DATABASE_URL')) ? ltrim(parse_url(env('DATABASE_URL'), PHP_URL_PATH), '/') : 'forge'),
+            'username' => env('DB_USERNAME', function_exists('parse_url') && !empty(env('DATABASE_URL')) ? parse_url(env('DATABASE_URL'), PHP_URL_USER) : 'forge'),
+            'password' => env('DB_PASSWORD', function_exists('parse_url') && !empty(env('DATABASE_URL')) ? parse_url(env('DATABASE_URL'), PHP_URL_PASS) : ''),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => 'prefer',
+            'sslmode' => 'require',
+            'options' => [
+                PDO::ATTR_PERSISTENT => false,
+                PDO::ATTR_TIMEOUT => 60,
+            ],
         ],
 
         'sqlsrv' => [

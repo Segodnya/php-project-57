@@ -9,6 +9,8 @@
 
 Task Manager is a task management system similar to [Redmine](http://www.redmine.org/). It allows you to create tasks, assign executors, and change task statuses. Registration and authentication are required to work with the system.
 
+Demo: https://php-project-57-koti.onrender.com
+
 ## Requirements
 
 - PHP >= 8.2
