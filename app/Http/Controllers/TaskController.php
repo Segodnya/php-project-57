@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class);
+    }
+
     public function index(Request $request)
     {
         // First get the base query
@@ -100,12 +105,8 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        if ($task->created_by_id !== Auth::id()) {
-            flash(__('messages.Only the author can delete the task'))->error();
-        } else {
-            $task->delete();
-            flash(__('messages.The task was successfully deleted'))->success();
-        }
+        $task->delete();
+        flash(__('messages.The task was successfully deleted'))->success();
         return redirect()->route('tasks.index');
     }
 }
