@@ -1,23 +1,74 @@
-FROM php:8.2-cli
+# Build stage
+FROM php:8.2-cli AS builder
 
 RUN apt-get update && apt-get install -y \
     libpq-dev \
-    libzip-dev
-RUN docker-php-ext-install pdo pdo_pgsql zip
+    libzip-dev \
+    git \
+    unzip \
+    && docker-php-ext-install pdo pdo_pgsql zip
 
-
+# Install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && php -r "unlink('composer-setup.php');"
 
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
-RUN apt-get install -y nodejs
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
 
 WORKDIR /app
 
-COPY . .
-RUN composer install
+# Copy only composer files first
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader
+
+# Copy only npm files
+COPY package.json package-lock.json ./
 RUN npm ci
+
+# Copy the rest of the application
+COPY . .
+
+# Run composer scripts and generate autoloader
+RUN composer dump-autoload --optimize
+
+# Build assets
 RUN npm run build
 
+# Production stage
+FROM php:8.2-cli
+
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    libzip-dev \
+    && docker-php-ext-install pdo pdo_pgsql zip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy only the necessary files from builder
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/vendor ./vendor
+COPY --from=builder /app/storage ./storage
+COPY --from=builder /app/bootstrap ./bootstrap
+COPY --from=builder /app/config ./config
+COPY --from=builder /app/resources ./resources
+COPY --from=builder /app/routes ./routes
+COPY --from=builder /app/app ./app
+COPY --from=builder /app/database ./database
+COPY --from=builder /app/artisan .
+
+# Set proper permissions
+RUN chmod -R 775 storage bootstrap/cache
+
+# Create storage symlink
+RUN php artisan storage:link
+
+# Set production environment
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+
+# Run migrations and start the server
 CMD ["bash", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"]
