@@ -5,8 +5,16 @@ echo "Running composer"
 composer global require hirak/prestissimo
 composer install --no-dev
 
+echo "Creating storage directory structure..."
+mkdir -p storage/framework/sessions
+mkdir -p storage/framework/views
+mkdir -p storage/framework/cache
+mkdir -p storage/logs
+mkdir -p bootstrap/cache
+
 echo "Setting directory permissions..."
-chmod -R 777 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
 
 echo "Caching config..."
 php artisan config:cache
