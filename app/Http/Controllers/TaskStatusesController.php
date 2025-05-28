@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TaskStatus;
 use App\Http\Requests\TaskStatusRequest;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskStatusesController extends Controller
 {
@@ -14,8 +15,11 @@ class TaskStatusesController extends Controller
 
     public function index()
     {
-        $statuses = TaskStatus::orderBy('id')
+        $statuses = QueryBuilder::for(TaskStatus::class)
+            ->allowedSorts(['id', 'name'])
+            ->orderBy('id')
             ->paginate(10);
+
         return view('status.index', compact('statuses'));
     }
 

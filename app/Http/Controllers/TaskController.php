@@ -7,8 +7,11 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Label;
 use App\Http\Requests\TaskRequest;
+use App\Http\Requests\TaskIndexRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class TaskController extends Controller
 {
@@ -17,33 +20,21 @@ class TaskController extends Controller
         $this->authorizeResource(Task::class);
     }
 
-    public function index(Request $request)
+    public function index(TaskIndexRequest $request)
     {
-        // First get the base query
-        $query = Task::query();
-
-        // Apply filters manually
-        $filters = $request->get('filter', []);
-        if (is_array($filters) && isset($filters['status_id'])) {
-            $query->where('status_id', $filters['status_id']);
-        }
-
-        if (is_array($filters) && isset($filters['assigned_to_id'])) {
-            $query->where('assigned_to_id', $filters['assigned_to_id']);
-        }
-
-        if (is_array($filters) && isset($filters['created_by_id'])) {
-            $query->where('created_by_id', $filters['created_by_id']);
-        }
-
-        // Apply eager loading and pagination
-        $tasks = $query->with(['status', 'author', 'assignedToUser'])
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters([
+                AllowedFilter::exact('status_id'),
+                AllowedFilter::exact('created_by_id'),
+                AllowedFilter::exact('assigned_to_id'),
+            ])
+            ->allowedSorts(['id', 'name', 'status_id', 'created_by_id', 'assigned_to_id'])
+            ->with(['status', 'author', 'assignedToUser'])
             ->orderBy('id')
             ->paginate(10);
 
         $statuses = TaskStatus::pluck('name', 'id')->all();
         $users = User::pluck('name', 'id')->all();
-
         $filter = $request->filter ?? [];
 
         return view('task.index', compact('tasks', 'statuses', 'users', 'filter'));
