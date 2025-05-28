@@ -39,7 +39,7 @@ class TaskController extends Controller
         // Apply eager loading and pagination
         $tasks = $query->with(['status', 'author', 'assignedToUser'])
             ->orderBy('id')
-            ->paginate(5);
+            ->paginate(10);
 
         $statuses = TaskStatus::pluck('name', 'id')->all();
         $users = User::pluck('name', 'id')->all();
