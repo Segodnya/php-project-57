@@ -58,7 +58,7 @@ class TaskStatusesControllerTest extends TestCase
     public function testCreateUnathorized(): void
     {
         $this->get(route('task_statuses.create'))
-            ->assertStatus(403);
+            ->assertForbidden();
     }
 
     public function testStore(): void
@@ -98,7 +98,7 @@ class TaskStatusesControllerTest extends TestCase
     public function testEditUnathorized(): void
     {
         $this->get(route('task_statuses.edit', $this->taskStatus))
-            ->assertStatus(403);
+            ->assertForbidden();
     }
 
     public function testUpdate(): void

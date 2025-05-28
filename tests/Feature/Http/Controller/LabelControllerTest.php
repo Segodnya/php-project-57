@@ -69,7 +69,7 @@ class LabelControllerTest extends TestCase
     public function testCreateUnathorized(): void
     {
         $this->get(route('labels.create'))
-            ->assertStatus(403);
+            ->assertForbidden();
     }
 
     public function testStore(): void
@@ -96,7 +96,7 @@ class LabelControllerTest extends TestCase
     public function testEditUnathorized(): void
     {
         $this->get(route('labels.edit', $this->label))
-            ->assertStatus(403);
+            ->assertForbidden();
     }
 
     public function testUpdate(): void
@@ -124,7 +124,7 @@ class LabelControllerTest extends TestCase
 
         $this->actingAs($this->user)
             ->delete(route('labels.destroy', $this->label))
-            ->assertStatus(302)
+            ->assertFound()
             ->assertRedirect(route('labels.index'));
 
         $this->assertDatabaseHas($this->tableName, $this->label->only(
