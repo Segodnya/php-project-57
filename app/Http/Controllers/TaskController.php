@@ -8,10 +8,10 @@ use App\Models\User;
 use App\Models\Label;
 use App\Http\Requests\TaskRequest;
 use App\Http\Requests\TaskIndexRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Support\Arr;
 
 class TaskController extends Controller
 {
@@ -54,7 +54,7 @@ class TaskController extends Controller
         /** @var array<string, mixed> $data */
         $data = $request->validated();
         /** @var array<int, int> $labels */
-        $labels = isset($data['label']) ? (array) $data['label'] : [];
+        $labels = Arr::get($data, 'label', []);
 
         $task = new Task();
         $task->fill($data);
@@ -84,7 +84,7 @@ class TaskController extends Controller
         /** @var array<string, mixed> $data */
         $data = $request->validated();
         /** @var array<int, int> $labels */
-        $labels = isset($data['label']) ? (array) $data['label'] : [];
+        $labels = Arr::get($data, 'label', []);
 
         $task->fill($data);
         $task->save();
