@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TaskPolicy
 {
@@ -28,7 +29,7 @@ class TaskPolicy
      */
     public function create(?User $user): bool
     {
-        return $user !== null;
+        return Auth::check();
     }
 
     /**
@@ -36,7 +37,7 @@ class TaskPolicy
      */
     public function update(?User $user, Task $task): bool
     {
-        return $user !== null;
+        return Auth::check();
     }
 
     /**
@@ -44,10 +45,7 @@ class TaskPolicy
      */
     public function delete(?User $user, Task $task): bool
     {
-        if ($user === null) {
-            return false;
-        }
-        return $user->id === $task->created_by_id;
+        return Auth::check() && Auth::id() === $task->created_by_id;
     }
 
     /**
@@ -63,6 +61,6 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task): bool
     {
-        return $user->id === $task->created_by_id;
+        return Auth::check() && Auth::id() === $task->created_by_id;
     }
 }
